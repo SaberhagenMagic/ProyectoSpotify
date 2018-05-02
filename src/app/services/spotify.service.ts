@@ -7,18 +7,48 @@ export class SpotifyService {
 
   artistas: any[] = [];
 
+  urlSpotifyAPI = 'https://api.spotify.com/v1/';
+
+  token = 'BQBI4ft4MLWW1ei9FPpVBLQUrJGZbnv6ia9v3NZd6TTQTHXSBgtlRcgMnernfR7RoZEBgzHJ1oxsfJ8JNZw';
+
   constructor(public http: HttpClient) {
     console.log('Servicio listo');
    }
 
+   private getHeaders(): HttpHeaders {
+    const spotiHeaders = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.token
+    });
+    return spotiHeaders;
+   }
+
+   getTop( id: string ) {
+     const url = `${ this.urlSpotifyAPI }artists/${ id }/top-tracks?country=MX`;
+
+     const _head = this.getHeaders();
+
+     return this.http.get(url, { headers: _head });
+   }
+
+   getArtista( id: string) {
+    const url = `${ this.urlSpotifyAPI }artists/${ id }`;
+
+    const _head = this.getHeaders();
+
+    return this.http.get(url, { headers: _head });
+    //  .map( (resp: any) => {
+    //      this.artistas = resp.artists.items;
+    //      return this.artistas;
+    //  });
+
+   }
+
    getArtistas(termino: string) {
-     let url = `https://api.spotify.com/v1/search?query=${ termino }&type=artist&offset=0&limit=20`;
+     const url = `${ this.urlSpotifyAPI }search?query=${ termino }&type=artist&offset=0&limit=20`;
 
-     let spotiHeaders = new HttpHeaders({
-       'Authorization': 'Bearer BQBGT63fOClYAje5Uhw4cG5MZ0ozVJHKcswJv3A2y5PuLBOoKDPypH21FoxW33IM2bnZR9oWbfmXQkfns2s'
-     });
+     const _head = this.getHeaders();
 
-     return this.http.get(url, { headers: spotiHeaders })
+     return this.http.get(url, { headers: _head })
       .map( (resp: any) => {
           this.artistas = resp.artists.items;
           return this.artistas;

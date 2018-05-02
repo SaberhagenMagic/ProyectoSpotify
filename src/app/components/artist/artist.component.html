@@ -1,3 +1,34 @@
-<p>
-  artist works!
-</p>
+<div class="jumbotron">
+  <div class="row">
+    <div class="col-md-2">
+        <img [src]="artista.images | sinfoto" [alt]="artista.name" class="rounded-circle picPerfil">
+    </div>
+    <div class="col-md-10">
+      <h1 class="display-4">{{artista.name}}</h1>
+      <div>
+        <span *ngFor="let genero of artista.genres" class="badge badge-secondary clsGenero">{{ genero }}</span>
+      </div>
+      <div class="top30">
+        <a class="btn btn-outline-secondary btn-sm" href="#" role="button">Volver</a>
+        <a class="btn btn-outline-secondary btn-sm" href="#" role="button">Abrir Spotifity</a>
+      </div>
+    </div>
+  </div>
+  <hr class="my-4">
+  <h3>Top Tracks</h3>
+
+
+  <ul class="list-group">
+    <li *ngFor="let track of topTen" class="list-group-item list-group-item-dark">
+        <img [src]="track.album.images | sinfoto" [alt]="track.album.name" class="rounded-left imgTrack">
+        <div class="infoTrack">
+          <i class="material-icons">music_note</i>{{track.name}}
+          <hr>
+          <i>{{track.album.name}} ({{track.album.release_date | date:'y'}})</i>
+        </div>
+    </li>
+  </ul>
+
+
+
+</div>
