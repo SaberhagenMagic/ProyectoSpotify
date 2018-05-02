@@ -9,8 +9,8 @@
         <span *ngFor="let genero of artista.genres" class="badge badge-secondary clsGenero">{{ genero }}</span>
       </div>
       <div class="top30">
-        <a class="btn btn-outline-secondary btn-sm" href="#" role="button">Volver</a>
-        <a class="btn btn-outline-secondary btn-sm" href="#" role="button">Abrir Spotifity</a>
+        <a class="btn btn-outline-danger btn-sm" href="#" role="button">Volver</a>
+        <a class="btn btn-outline-success btn-sm" [href]="artista.external_urls?.spotify" role="button" target="_blank" >Abrir Spotifity</a>
       </div>
     </div>
   </div>
@@ -20,12 +20,30 @@
 
   <ul class="list-group">
     <li *ngFor="let track of topTen" class="list-group-item list-group-item-dark">
-        <img [src]="track.album.images | sinfoto" [alt]="track.album.name" class="rounded-left imgTrack">
-        <div class="infoTrack">
-          <i class="material-icons">music_note</i>{{track.name}}
-          <hr>
-          <i>{{track.album.name}} ({{track.album.release_date | date:'y'}})</i>
+      <div class="row">
+
+        <div class="col-md-6 col-sm-12">
+
+          <img [src]="track.album.images | sinfoto" [alt]="track.album.name" class="rounded-left imgTrack">
+          <div class="infoTrack">
+            <i class="material-icons">music_note</i>{{track.name}}
+            <hr>
+            <i>{{track.album.name}} ({{track.album.release_date | date:'y'}})</i>
+          </div>
+          <!-- CONTROL DE AUDIO NATIVO HTML5
+          <div>
+            <audio controls>
+              <source [src]="track.preview_url">
+            </audio>
+          </div> -->
+
         </div>
+
+        <div class="col-md-6 col-sm-12">
+          <iframe [src]="track.uri | domseguro: 'https://open.spotify.com/embed?uri='" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+        </div>
+
+      </div>
     </li>
   </ul>
 
