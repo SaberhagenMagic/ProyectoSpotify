@@ -5,11 +5,11 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class SpotifyService {
   // https://developer.spotify.com/documentation/web-api/
-  artistas: any[] = [];
+  searchResult: any[] = [];
 
   urlSpotifyAPI = 'https://api.spotify.com/v1/';
 
-  token = 'BQCNiR0Sq5S5qTBvnVFleJe1XvaFMHu0vrv7lLsBPRenvKC-mZ9sRzeQYub79Tyg4cd2_SwZrC5nuI9NQB0';
+  token = 'BQBhJwr27LA_4qlqCSIullIgCWSCdBCPROtIdXbNds_p85APgwA9pLABwqwvL9PzqxD3ZWODoTwMTCRnJwI';
 
   constructor(public http: HttpClient) {
     console.log('Spotify servicio listo');
@@ -50,16 +50,23 @@ export class SpotifyService {
 
    }
 
-   getArtistas(termino: string) {
-     const url = `${ this.urlSpotifyAPI }search?query=${ termino }&type=artist&offset=0&limit=20`;
+   getSearchResult(termino: string, type: string, limit?: number) {
+     const url = `${ this.urlSpotifyAPI }search?query=${ termino }&type=${ type }&offset=0&limit=${ (limit !== undefined) ? limit : 20 }`;
 
      const _head = this.getHeaders();
 
      return this.http.get(url, { headers: _head })
       .map( (resp: any) => {
-          this.artistas = resp.artists.items;
-          return this.artistas;
+          // console.log(resp);
+          if (type === 'artist') {
+            this.searchResult = resp.artists.items;
+          } else if (type === 'track') {
+            this.searchResult = resp.tracks.items;
+          }
+
+          return this.searchResult;
       });
 
    }
+
 }

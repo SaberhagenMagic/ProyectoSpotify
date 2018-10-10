@@ -8,7 +8,8 @@ import { SpotifyService } from '../../services/spotify.service';
 })
 export class SearchComponent implements OnInit {
 
-  termino = '';
+  artistName = '';
+  trackName = '';
 
   constructor(public _spotify: SpotifyService) { }
 
@@ -16,14 +17,17 @@ export class SearchComponent implements OnInit {
   }
 
   buscaArtista() {
-
-    if (this.termino.length !== 0) {
-
-      this._spotify.getArtistas( this.termino ).subscribe();
+    if (this.artistName.length !== 0) {
+      this._spotify.getSearchResult( this.artistName, 'artist' ).subscribe();
       // .subscribe( artistas => { console.log(artistas); });
-
     }
+  }
 
+  buscaTrack() {
+    if (this.trackName.length !== 0) {
+      this._spotify.getSearchResult( this.trackName, 'track' ).subscribe();
+      // .subscribe( items => { console.log(items); });
+    }
   }
 
 }
