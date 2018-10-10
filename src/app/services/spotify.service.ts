@@ -4,15 +4,15 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class SpotifyService {
-
+  // https://developer.spotify.com/documentation/web-api/
   artistas: any[] = [];
 
   urlSpotifyAPI = 'https://api.spotify.com/v1/';
 
-  token = 'BQB8CPhN_yzKEOHU0JzExgRHLTgpHlFYBBNAHmgfIpAbPd8Tg35kmuWf_o4JkloBS9L4CJjCy85lTx83-j4';
+  token = 'BQCNiR0Sq5S5qTBvnVFleJe1XvaFMHu0vrv7lLsBPRenvKC-mZ9sRzeQYub79Tyg4cd2_SwZrC5nuI9NQB0';
 
   constructor(public http: HttpClient) {
-    console.log('Servicio listo');
+    console.log('Spotify servicio listo');
    }
 
    private getHeaders(): HttpHeaders {
@@ -20,6 +20,13 @@ export class SpotifyService {
       'Authorization': 'Bearer ' + this.token
     });
     return spotiHeaders;
+   }
+
+   getNewRealeases() {
+     const url = `${this.urlSpotifyAPI}browse/new-releases`;
+     const _head = this.getHeaders();
+
+     return this.http.get(url, { headers: _head });
    }
 
    getTop( id: string ) {
