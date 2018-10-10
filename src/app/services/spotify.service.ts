@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import 'rxjs/add/operator/map';
+// import 'rxjs/add/operator/map';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class SpotifyService {
@@ -9,7 +10,7 @@ export class SpotifyService {
 
   urlSpotifyAPI = 'https://api.spotify.com/v1/';
 
-  token = 'BQBhJwr27LA_4qlqCSIullIgCWSCdBCPROtIdXbNds_p85APgwA9pLABwqwvL9PzqxD3ZWODoTwMTCRnJwI';
+  token = 'BQA-xooG0p2U-JVgsPf_ASxMYg1pIRbF8wGjdBwFF6UmlFBIZnRwwFhUzX4RTAGnHtyVl1TBX1qK7p0Belo';
 
   constructor(public http: HttpClient) {
     console.log('Spotify servicio listo');
@@ -22,41 +23,32 @@ export class SpotifyService {
     return spotiHeaders;
    }
 
-   getNewRealeases() {
-     const url = `${this.urlSpotifyAPI}browse/new-releases`;
-     const _head = this.getHeaders();
+   getSpotiQuery(query: string) {
+      const _head = this.getHeaders();
+      return this.http.get(`${ this.urlSpotifyAPI }${ query }`, { headers: _head });
+   }
 
-     return this.http.get(url, { headers: _head });
+   getNewRealeases() {
+     return this.getSpotiQuery('browse/new-releases')
+        .pipe( map( (data: any) => data.albums.items ));
    }
 
    getTop( id: string ) {
-     const url = `${ this.urlSpotifyAPI }artists/${ id }/top-tracks?country=MX`;
-
-     const _head = this.getHeaders();
-
-     return this.http.get(url, { headers: _head });
+     return this.getSpotiQuery(`artists/${ id }/top-tracks?country=MX`);
    }
 
    getArtista( id: string) {
-    const url = `${ this.urlSpotifyAPI }artists/${ id }`;
-
-    const _head = this.getHeaders();
-
-    return this.http.get(url, { headers: _head });
-    //  .map( (resp: any) => {
-    //      this.artistas = resp.artists.items;
-    //      return this.artistas;
-    //  });
+      return this.getSpotiQuery(`artists/${ id }`);
+      //  .map( (resp: any) => {
+      //      this.artistas = resp.artists.items;
+      //      return this.artistas;
+      //  });
 
    }
 
    getSearchResult(termino: string, type: string, limit?: number) {
-     const url = `${ this.urlSpotifyAPI }search?query=${ termino }&type=${ type }&offset=0&limit=${ (limit !== undefined) ? limit : 20 }`;
-
-     const _head = this.getHeaders();
-
-     return this.http.get(url, { headers: _head })
-      .map( (resp: any) => {
+     return this.getSpotiQuery(`search?query=${ termino }&type=${ type }&offset=0&limit=${ (limit !== undefined) ? limit : 20 }`)
+      .pipe( map( (resp: any) => {
           // console.log(resp);
           if (type === 'artist') {
             this.searchResult = resp.artists.items;
@@ -65,7 +57,7 @@ export class SpotifyService {
           }
 
           return this.searchResult;
-      });
+      }));
 
    }
 

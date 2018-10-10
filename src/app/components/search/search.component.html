@@ -15,17 +15,17 @@
             <h2 class="text-capitalize">{{ artistName !== '' ? artistName : trackName }}</h2>
             <hr>
 
-            <!-- <ul>
-            <li *ngFor="let artista of _spotify.artistas">{{artista.name}}</li>
-            </ul> -->
             <div>
+                <app-loading *ngIf="loading"></app-loading>
                 <!-- Resultado de busqueda de artista -->
-                <div *ngIf="artistName !== ''" class="row">
+                <!-- <div *ngIf="artistName !== ''" class="row">
                     <div *ngFor="let artist of _spotify.searchResult" class="col-md-3 text-center puntero" [routerLink]="['/artist',artist.id]">
                         <img [src]="artist.images | sinfoto" class="img-thumbnail">
                         <p>{{artist.name}}</p>
                     </div>
-                </div>
+                </div> -->
+                <!--Tarjetas-->
+                <app-tarjetas [items]="_spotify.searchResult"></app-tarjetas>
                 <!-- Resultado de busqueda de canción -->
                 <div *ngIf="trackName !== ''" class="row">
                     <div *ngFor="let track of _spotify.searchResult" class="col-md-3 text-center puntero">

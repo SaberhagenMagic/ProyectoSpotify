@@ -8,6 +8,7 @@ import { SpotifyService } from '../../services/spotify.service';
 })
 export class SearchComponent implements OnInit {
 
+  loading: boolean;
   artistName = '';
   trackName = '';
 
@@ -18,8 +19,12 @@ export class SearchComponent implements OnInit {
 
   buscaArtista() {
     if (this.artistName.length !== 0) {
-      this._spotify.getSearchResult( this.artistName, 'artist' ).subscribe();
-      // .subscribe( artistas => { console.log(artistas); });
+      this.loading = true;
+      this._spotify.getSearchResult( this.artistName, 'artist' )
+          .subscribe( artistas => {
+            // console.log(artistas);
+            this.loading = false;
+          });
     }
   }
 

@@ -13,10 +13,13 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { SearchComponent } from './components/search/search.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
+import { ArtistComponent } from './components/artist/artist.component';
+import { TarjetasComponent } from './components/tarjetas/tarjetas.component';
+import { LoadingComponent } from './components/shared/loading/loading.component';
+
+// Pipes
 import { SinfotoPipe } from './pipes/sinfoto.pipe';
 import { DomseguroPipe } from './pipes/domseguro.pipe';
-import { ArtistComponent } from './components/artist/artist.component';
-
 
 @NgModule({
   declarations: [
@@ -26,7 +29,9 @@ import { ArtistComponent } from './components/artist/artist.component';
     NavbarComponent,
     SinfotoPipe,
     DomseguroPipe,
-    ArtistComponent
+    ArtistComponent,
+    TarjetasComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,
