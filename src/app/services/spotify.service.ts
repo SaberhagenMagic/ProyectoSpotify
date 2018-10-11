@@ -10,7 +10,7 @@ export class SpotifyService {
 
   urlSpotifyAPI = 'https://api.spotify.com/v1/';
 
-  token = 'BQA-xooG0p2U-JVgsPf_ASxMYg1pIRbF8wGjdBwFF6UmlFBIZnRwwFhUzX4RTAGnHtyVl1TBX1qK7p0Belo';
+  token = 'BQD3AbzpNstSYIBBHCzz6Y0KMG6ShIsnqGoER49neNkHaa1OXikwOzKnFPEyYKWXJXyCClvly7OMszMb7v8';
 
   constructor(public http: HttpClient) {
     console.log('Spotify servicio listo');

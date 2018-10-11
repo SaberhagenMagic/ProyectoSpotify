@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
+// Services
 import { SpotifyService } from '../../services/spotify.service';
 
 @Component({
@@ -7,37 +9,25 @@ import { SpotifyService } from '../../services/spotify.service';
   templateUrl: './artist.component.html',
   styles: []
 })
-export class ArtistComponent implements OnInit {
+export class ArtistComponent {
 
   artista: any = {};
 
   topTen: any[] = [];
 
   constructor( private activatedRoute: ActivatedRoute,
-              public _spotify: SpotifyService) { }
+              public _spotify: SpotifyService) {
+      let id;
 
-  ngOnInit() {
-
-    this.activatedRoute.params
-          .map( params => params['id'] )
-          .subscribe( id => {
-
-            console.log(id);
-
-            this._spotify.getArtista( id ).subscribe( artista => {
-              console.log( artista );
-              this.artista = artista;
-            });
-
-            this._spotify.getTop( id )
-              .map( (resp: any) => resp.tracks )
-              .subscribe( top => {
-                console.log(top);
-                this.topTen = top;
-              });
-
-          });
-
+      this.activatedRoute.params.subscribe( params => id = params['id'] );
+      this._spotify.getArtista( id ).subscribe( artista => {
+          // console.log( artista );
+          this.artista = artista;
+      });
+      this._spotify.getTop( id ).subscribe( (topTrack: any) => {
+        console.log(topTrack);
+        this.topTen = topTrack.tracks;
+      });
   }
 
 }
